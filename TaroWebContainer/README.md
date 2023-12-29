@@ -69,6 +69,7 @@ let storage = LocalStorage.getShared() // 获取共享的本地存储对象
 struct TaroMpharmonySample {
   @LocalStorageProp('want') want: Want = {};
   @State taroWebController: TaroWebController = new TaroWebController();
+  @State pageState: HostPageState = HostPageState.PageInit;
 
   // 用户可以自定义对象注入到Web环境中，使用native.sayHello格式进行调用
   nativeObj: InjectObject = {
@@ -100,7 +101,7 @@ struct TaroMpharmonySample {
   webUrl(): string {
     // 开发阶段可以把网站静态资源文件放置到src/main/resources/rawfile/目录下
     // 生产环境下把网站静态资源放置到web服务器, 这里填写实际的网站地址url
-    return $rawfile('index.html') + 'index.html';
+    return 'resource://rawfile/index.html';
   }
 
   webUrlPrefix() {
