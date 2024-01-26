@@ -84,7 +84,16 @@ window.MethodChannel = {
         const firstArg = args.length >= 1 ? args[0] : ''
 
         let argTypeIsFun = isFunction(firstArg)
-
+        console.log('methodCallByNative methodName', methodName)
+        let stubId = window.MethodChannel.__registerArgStub(firstArg, argTypeIsFun, autoRelease)
+        if (argTypeIsFun) {
+            if (this._listenerMap.has(firstArg)) {
+                stubId = this._listenerMap.get(firstArg)
+            } else {
+                this._listenerMap.set(firstArg, stubId)
+            }
+        }
+        console.log('methodCallByNative methodName', stubId)
         // 方法调用转换为数据
         var methodCall = {
             //修改了名称
@@ -95,9 +104,10 @@ window.MethodChannel = {
                 isFun: argTypeIsFun,
                 properties: firstArg,
                 funs: getAllFuns(firstArg), // ['success', 'fail']
-                stubId: window.MethodChannel.__registerArgStub(firstArg, argTypeIsFun, autoRelease)
+                stubId,
             },
         }
+        console.log('methodCall', JSON.stringify(methodCall))
         return window.Channel.nativeCall(window.MethodChannel.ChannelType, methodCall)
     },
     //提交了一次到本地，只修改了app.js文件
@@ -107,6 +117,7 @@ window.MethodChannel = {
 
     _NextId: 0, // 初始ID值
     _stubMap: {},
+    _listenerMap: new Map(),
     __registerArgStub: function (argObject, isFun, autoRelease) {
         const hasFun = isFunctionOrObjectWithFunction(argObject)
         if(!hasFun) {

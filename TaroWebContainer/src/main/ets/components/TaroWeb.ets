@@ -179,6 +179,10 @@ export struct TaroWeb {
       return NativeApiImplInstance.onUserCaptureScreen(options)
     })
 
+    MethodChannelInstance.registerMethod('NativeApi$offUserCaptureScreen', (options: ESObject) => {
+      return NativeApiImplInstance.offUserCaptureScreen(options)
+    })
+
     MethodChannelInstance.registerMethod('NativeApi$hideKeyboard', (options: ESObject) => {
       return NativeApiImplInstance.hideKeyboard(options)
     })

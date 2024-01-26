@@ -36,6 +36,7 @@ export const ChannelInstance: Channel = new Channel();
 
 class MethodChannel {
   private ChannelType = 'MethodChannel'
+  private listenerMap = new Map()
 
   private methodPools = new Map<string, (arg: any)=>any>()
   // TODO-ly 改为装饰器实现
@@ -76,13 +77,18 @@ class MethodChannel {
     if (stubId == -1) { // 没有回调函数
       argProxy = properties;
     } else if(isFun) { // arg为函数
-      argProxy = function (...args){
-        const object = {
-          call: '',
-          args: args,
-          stubId: stubId,
+      if (this.listenerMap.has(stubId)) {
+        argProxy = this.listenerMap.get(stubId)
+      } else {
+        argProxy = function (...args){
+          const object = {
+            call: '',
+            args: args,
+            stubId: stubId,
+          }
+          ChannelInstance.jsCall(MethodChannelInstance.ChannelType, object)
         }
-        ChannelInstance.jsCall(MethodChannelInstance.ChannelType, object)
+        this.listenerMap.set(stubId, argProxy)
       }
     } else {
       let argObject = properties ?? {};

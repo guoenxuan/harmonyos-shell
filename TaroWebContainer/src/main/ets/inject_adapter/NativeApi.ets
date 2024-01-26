@@ -137,6 +137,8 @@ interface NativeApi {
 
   onUserCaptureScreen(options: ESObject): void
 
+  offUserCaptureScreen(options: ESObject): void
+
   hideKeyboard(options: ESObject): void
 
   access(options: ESObject): ESObject
@@ -263,6 +265,12 @@ class NativeApiImpl implements NativeApi {
   onUserCaptureScreen(options: ESObject): void {
     wbLogger.debug('JsBridgeNativeApi', `NativeApi$onUserCaptureScreen`)
     return as.onUserCaptureScreen(options)
+  }
+
+  //回调监听
+  offUserCaptureScreen(options: ESObject): void {
+    wbLogger.debug('JsBridgeNativeApi', `NativeApi$offUserCaptureScreen`)
+    return as.offUserCaptureScreen(options)
   }
 
   hideKeyboard(options: ESObject): void {
