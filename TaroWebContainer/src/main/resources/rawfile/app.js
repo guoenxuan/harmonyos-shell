@@ -82,6 +82,7 @@ window.MethodChannel = {
     methodCallByNative: function (className, methodName, args, isAsync, autoRelease){
 
         const firstArg = args.length >= 1 ? args[0] : ''
+        const taskId = args.length >= 2 ? args[1] : undefined
 
         let argTypeIsFun = isFunction(firstArg)
         console.log('methodCallByNative methodName', methodName)
@@ -105,6 +106,7 @@ window.MethodChannel = {
                 properties: firstArg,
                 funs: getAllFuns(firstArg), // ['success', 'fail']
                 stubId,
+                taskId,
             },
         }
         console.log('methodCall', JSON.stringify(methodCall))

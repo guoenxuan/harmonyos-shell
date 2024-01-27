@@ -254,16 +254,16 @@ export struct TaroWeb {
       return NativeApiImplInstance.offHeadersReceived(options)
     })
 
-    MethodChannelInstance.registerMethod('NativeApi$offProgressUpdate', (options: ESObject) => {
-      return NativeApiImplInstance.offProgressUpdate(options)
+    MethodChannelInstance.registerMethod('NativeApi$offProgressUpdate', (options: ESObject, taskId: number) => {
+      return NativeApiImplInstance.offProgressUpdate(options, taskId)
     })
 
     MethodChannelInstance.registerMethod('NativeApi$onHeadersReceived', (options: ESObject) => {
       return NativeApiImplInstance.onHeadersReceived(options)
     })
 
-    MethodChannelInstance.registerMethod('NativeApi$onProgressUpdate', (options: ESObject) => {
-      return NativeApiImplInstance.onProgressUpdate(options)
+    MethodChannelInstance.registerMethod('NativeApi$onProgressUpdate', (options: ESObject, taskId: number) => {
+      return NativeApiImplInstance.onProgressUpdate(options, taskId)
     })
   }
 

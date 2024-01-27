@@ -40,7 +40,7 @@ class MethodChannel {
 
   private methodPools = new Map<string, (arg: any)=>any>()
   // TODO-ly 改为装饰器实现
-  registerMethod(methodName: string, fun: (arg: any)=>any) {
+  registerMethod(methodName: string, fun: (arg: any, taskId?: number)=>any) {
     if(this.methodPools.has(methodName)){
       return
     }
@@ -106,7 +106,7 @@ class MethodChannel {
       // arg为对象
       argProxy = argObject;
     }
-    return fun.call(null, argProxy)
+    return fun.call(null, argProxy, taskId)
   }
 }
 

@@ -169,11 +169,11 @@ interface NativeApi {
 
   offHeadersReceived(options: ESObject): ESObject
 
-  offProgressUpdate(options: ESObject): ESObject
+  offProgressUpdate(options: ESObject, taskId: number): ESObject
 
   onHeadersReceived(options: ESObject): ESObject
 
-  onProgressUpdate(options: ESObject): ESObject
+  onProgressUpdate(options: ESObject, taskId: number): ESObject
 }
 
 class NativeApiImpl implements NativeApi {
@@ -436,13 +436,13 @@ class NativeApiImpl implements NativeApi {
     this.networkTaskMap.get(options.taskId).offHeadersReceived(options.listener)
   }
 
-  offProgressUpdate(options: ESObject): ESObject{
+  offProgressUpdate(options: ESObject, taskId: number): ESObject{
     wbLogger.debug('JsBridgeNativeApi', `NativeApi$offProgressUpdate`)
-    if (!this.networkTaskMap.has(options.taskId)){
+    if (!this.networkTaskMap.has(taskId)){
       wbLogger.error('JsBridgeNativeApi', 'the Task has not been init')
       return
     }
-    this.networkTaskMap.get(options.taskId).offProgressUpdate(options.listener)
+    this.networkTaskMap.get(taskId).offProgressUpdate(options)
   }
 
   onHeadersReceived(options: ESObject): ESObject{
@@ -454,13 +454,13 @@ class NativeApiImpl implements NativeApi {
     this.networkTaskMap.get(options.taskId).onHeadersReceived(options.listener)
   }
 
-  onProgressUpdate(options: ESObject): ESObject{
+  onProgressUpdate(options: ESObject, taskId: number): ESObject{
     wbLogger.debug('JsBridgeNativeApi', `NativeApi$onProgressUpdate`)
-    if (!this.networkTaskMap.has(options.taskId)){
+    if (!this.networkTaskMap.has(taskId)){
       wbLogger.error('JsBridgeNativeApi', 'the Task has not been init')
       return
     }
-    this.networkTaskMap.get(options.taskId).onProgressUpdate(options.listener)
+    this.networkTaskMap.get(taskId).onProgressUpdate(options)
   }
 }
 
